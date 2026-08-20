@@ -86,7 +86,7 @@ collections:
         name: "teams"
         fields:
           - label: "Teams"
-            name: "teams"
+            name: "list"
             widget: "list"
             fields:
               - { label: "Tag", name: "tag", widget: "string" }
@@ -105,7 +105,7 @@ collections:
         name: "schedule"
         fields:
           - label: "Sessions"
-            name: "schedule"
+            name: "list"
             widget: "list"
             fields:
               - { label: "Day (e.g. SUN)", name: "day", widget: "string" }
