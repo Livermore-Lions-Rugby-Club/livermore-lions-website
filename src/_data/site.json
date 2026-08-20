@@ -34,6 +34,7 @@
     { "label": "About", "url": "/about/" },
     { "label": "Coaches", "url": "/about/" },
     { "label": "Volunteer", "url": "/volunteers/" },
+    { "label": "Sponsors", "url": "/sponsors/" },
     { "label": "Contact", "url": "#contact" }
   ],
   "footerPolicies": [
