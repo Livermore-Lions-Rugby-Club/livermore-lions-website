@@ -115,18 +115,41 @@ collections:
               - { label: "Location", name: "location", widget: "string" }
               - { label: "Google Maps Query", name: "mapQuery", widget: "string", hint: "URL-encoded, e.g. Independence+Park+Livermore+CA" }
 
-  - name: "pages"
+   - name: "pages"
     label: "Pages"
     files:
-      - { file: "src/about.njk", label: "About", name: "about" }
-      - { file: "src/play-rugby.njk", label: "Play Rugby", name: "play-rugby" }
-      - { file: "src/volunteers.njk", label: "Volunteers", name: "volunteers" }
-      - { file: "src/privacy.njk", label: "Privacy Policy", name: "privacy" }
-      - { file: "src/terms.njk", label: "Terms of Use", name: "terms" }
-      - { file: "src/code-of-conduct.njk", label: "Code of Conduct", name: "code-of-conduct" }
-      - { file: "src/player-welfare.njk", label: "Player Welfare", name: "player-welfare" }
-      - { file: "src/notice-at-collection.njk", label: "Notice at Collection", name: "notice-at-collection" }
-    fields:
-      - { label: "Title", name: "title", widget: "string" }
-      - { label: "Description", name: "description", widget: "text", required: false }
-      - { label: "Body", name: "body", widget: "markdown" }
+      - file: "src/about.njk"
+        label: "About"
+        name: "about"
+        fields: &page_fields
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Description", name: "description", widget: "text", required: false }
+          - { label: "Body", name: "body", widget: "markdown" }
+      - file: "src/play-rugby.njk"
+        label: "Play Rugby"
+        name: "play-rugby"
+        fields: *page_fields
+      - file: "src/volunteers.njk"
+        label: "Volunteers"
+        name: "volunteers"
+        fields: *page_fields
+      - file: "src/privacy.njk"
+        label: "Privacy Policy"
+        name: "privacy"
+        fields: *page_fields
+      - file: "src/terms.njk"
+        label: "Terms of Use"
+        name: "terms"
+        fields: *page_fields
+      - file: "src/code-of-conduct.njk"
+        label: "Code of Conduct"
+        name: "code-of-conduct"
+        fields: *page_fields
+      - file: "src/player-welfare.njk"
+        label: "Player Welfare"
+        name: "player-welfare"
+        fields: *page_fields
+      - file: "src/notice-at-collection.njk"
+        label: "Notice at Collection"
+        name: "notice-at-collection"
+        fields: *page_fields
