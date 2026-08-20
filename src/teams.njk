@@ -7,7 +7,7 @@ description: "Choose an age group to see training times, coaches and what a firs
 <section id="teams">
 <div class="wrap">
 <div class="team-grid">
-{% for team in teams %}
+{% for team in teams.list %}
 <div class="team-card"><div class="team-card-top"></div><div class="team-card-body">
 <div class="team-tag">{{ team.tag }}</div><h3>{{ team.name }}</h3>
 <p>{{ team.description }}</p>
