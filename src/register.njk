@@ -39,6 +39,7 @@ permalink: /register/
     </div>
 
     <div class="form-card">
+      <iframe name="regTargetFrame" id="regTargetFrame" style="display:none;" title="registration submit target"></iframe>
       <form id="clubRegistration">
         <div class="form-row">
           <div class="form-field">
@@ -146,62 +147,49 @@ permalink: /register/
 
 <script>
 // Paste the Web app URL from your Apps Script deployment here.
-const GOOGLE_SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxpr_MSWjyYohzelh9A_76EuZ6NRroaAGo6GHUBJYYMuhgz77pAgeHsEZXG3SF1STKYqA/exec'
+const GOOGLE_SHEET_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxpr_MSWjyYohzelh9A_76EuZ6NRroaAGo6GHUBJYYMuhgz77pAgeHsEZXG3SF1STKYqA/exec';
 
-document.getElementById('clubRegistration').addEventListener('submit', async function (e) {
-  e.preventDefault();
-  const status = document.getElementById('regStatus');
-  const btn = document.getElementById('regSubmitBtn');
-  const data = new FormData(this);
+// Apps Script Web Apps don't send the CORS header browsers require to read
+// a fetch() response, so we submit the form the classic way instead: a real
+// HTML POST targeted at a hidden iframe. That's a page navigation, not an
+// XHR/fetch call, so CORS rules don't apply to it. We can't read the
+// response back (still cross-origin), so we treat the iframe's "load"
+// event after a real submission as success.
 
-  const payload = {
-    parentName: data.get('parentName') || '',
-    email: data.get('email') || '',
-    phone: data.get('phone') || '',
-    childName: data.get('childName') || '',
-    dob: data.get('dob') || '',
-    ageGroup: data.get('ageGroup') || '',
-    experience: data.get('experience') || '',
-    volunteer: data.get('volunteer') || '',
-    notes: data.get('notes') || '',
-    consent: data.get('consent') ? true : false
-  };
+const regForm = document.getElementById('clubRegistration');
+const regFrame = document.getElementById('regTargetFrame');
+const status = document.getElementById('regStatus');
+const btn = document.getElementById('regSubmitBtn');
+let regSubmitted = false;
 
+regForm.setAttribute('action', GOOGLE_SHEET_ENDPOINT);
+regForm.setAttribute('method', 'POST');
+regForm.setAttribute('target', 'regTargetFrame');
+
+regForm.addEventListener('submit', function (e) {
   if (!GOOGLE_SHEET_ENDPOINT) {
+    e.preventDefault();
     status.className = 'reg-status error';
     status.style.display = 'block';
     status.textContent = 'The registration form is ready, but it is not yet connected to the club Sheet. Deploy the Apps Script backend and paste the Web app URL into GOOGLE_SHEET_ENDPOINT.';
     return;
   }
-
+  // Let the browser submit natively into the hidden iframe.
+  status.style.display = 'none';
   btn.disabled = true;
   btn.textContent = 'Submitting…';
+  regSubmitted = true;
+});
 
-  try {
-    // text/plain avoids a CORS preflight against the Apps Script endpoint.
-    const res = await fetch(GOOGLE_SHEET_ENDPOINT, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify(payload)
-    });
-    const result = await res.json();
-
-    if (result.status === 'success') {
-      status.className = 'reg-status';
-      status.style.display = 'block';
-      status.textContent = "Thanks! Your player's details have been sent to the club. Now pick an age group below.";
-      this.reset();
-      document.getElementById('team-select').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    } else {
-      throw new Error(result.message || 'Unknown error');
-    }
-  } catch (err) {
-    status.className = 'reg-status error';
-    status.style.display = 'block';
-    status.textContent = 'We could not submit the form. Please try again or email registration@livermorerugby.com.';
-  } finally {
-    btn.disabled = false;
-    btn.textContent = 'Submit & continue';
-  }
+regFrame.addEventListener('load', function () {
+  if (!regSubmitted) return; // ignore the iframe's initial blank load
+  regSubmitted = false;
+  status.className = 'reg-status';
+  status.style.display = 'block';
+  status.textContent = "Thanks! Your player's details have been sent to the club. Now pick an age group below.";
+  regForm.reset();
+  btn.disabled = false;
+  btn.textContent = 'Submit & continue';
+  document.getElementById('team-select').scrollIntoView({ behavior: 'smooth', block: 'start' });
 });
 </script>
