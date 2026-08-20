@@ -70,7 +70,7 @@ permalink: /register/
             <label>Age group, if known</label>
             <select name="ageGroup">
               <option value="">Not sure</option>
-              {% for team in teams %}
+              {% for team in teams.list %}
               <option value="{{ team.name }}">{{ team.name }}</option>
               {% endfor %}
             </select>
@@ -129,7 +129,7 @@ permalink: /register/
     <span class="section-label reg-step-label">Step 2 of 2</span>
     <h2 class="section-title center">Register by age group</h2>
     <div class="register-team-grid">
-      {% for team in teams %}
+      {% for team in teams.list %}
       <div class="register-team-card">
         <h3>{{ team.name }}</h3>
         <a href="{{ team.rugbyXplorerUrl or ('mailto:' + site.registrationEmail) }}" class="btn btn-ghost">{% if team.needsDetails %}Register{% else %}Register Interest{% endif %}</a>
