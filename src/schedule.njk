@@ -6,7 +6,7 @@ description: "Find the next Livermore Lions training session and get directions.
 <section class="policy-hero"><div class="policy-wrap"><h1>Training schedule</h1><p>Come along to the next session — new families are always welcome.</p></div></section>
 <section id="schedule">
 <div class="wrap">
-{% for session in schedule %}
+{% for session in schedule.list %}
 <div class="next-session">
 <div class="ns-left">
 <div class="ns-date"><span class="day">{{ session.day }}</span><span class="num">{{ session.date }}</span></div>
