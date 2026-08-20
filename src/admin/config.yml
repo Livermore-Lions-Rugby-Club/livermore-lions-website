@@ -1,0 +1,114 @@
+backend:
+  name: git-gateway
+  repo: Livermore-Lions-Rugby-Club/livermore-lions-website
+  branch: main
+  identity_url: https://auth.decapbridge.com/sites/REPLACE-WITH-YOUR-DECAPBRIDGE-SITE-ID
+  gateway_url: https://gateway.decapbridge.com
+
+publish_mode: simple
+media_folder: "src/assets/img/uploads"
+public_folder: "/assets/img/uploads"
+
+collections:
+  - name: "site_settings"
+    label: "Site Settings"
+    files:
+      - file: "src/_data/site.json"
+        label: "Club Info & Navigation"
+        name: "site"
+        fields:
+          - { label: "Club Name", name: "name", widget: "string" }
+          - { label: "Short Name", name: "shortName", widget: "string" }
+          - { label: "Tagline", name: "tagline", widget: "string" }
+          - { label: "Website URL", name: "url", widget: "string" }
+          - { label: "General Email", name: "email", widget: "string" }
+          - { label: "Registration Email", name: "registrationEmail", widget: "string" }
+          - { label: "Volunteer Email", name: "volunteerEmail", widget: "string" }
+          - { label: "Sponsor Email", name: "sponsorEmail", widget: "string" }
+          - { label: "Location", name: "location", widget: "string" }
+          - { label: "Founded Year", name: "founded", widget: "string" }
+          - label: "Social Links"
+            name: "social"
+            widget: "object"
+            fields:
+              - { label: "Instagram URL", name: "instagram", widget: "string" }
+              - { label: "Facebook URL", name: "facebook", widget: "string" }
+              - { label: "Twitter/X URL", name: "twitter", widget: "string" }
+              - { label: "Display Handle", name: "handle", widget: "string" }
+          - label: "Main Navigation"
+            name: "nav"
+            widget: "list"
+            fields:
+              - { label: "Label", name: "label", widget: "string" }
+              - { label: "URL", name: "url", widget: "string" }
+          - label: "Footer: Play Links"
+            name: "footerPlay"
+            widget: "list"
+            fields:
+              - { label: "Label", name: "label", widget: "string" }
+              - { label: "URL", name: "url", widget: "string" }
+          - label: "Footer: Club Links"
+            name: "footerClub"
+            widget: "list"
+            fields:
+              - { label: "Label", name: "label", widget: "string" }
+              - { label: "URL", name: "url", widget: "string" }
+          - label: "Footer: Policy Links"
+            name: "footerPolicies"
+            widget: "list"
+            fields:
+              - { label: "Label", name: "label", widget: "string" }
+              - { label: "URL", name: "url", widget: "string" }
+
+  - name: "teams"
+    label: "Teams"
+    files:
+      - file: "src/_data/teams.json"
+        label: "Age Groups"
+        name: "teams"
+        fields:
+          - label: "Teams"
+            name: "teams"
+            widget: "list"
+            fields:
+              - { label: "Tag", name: "tag", widget: "string" }
+              - { label: "Name", name: "name", widget: "string" }
+              - { label: "Description", name: "description", widget: "text" }
+              - { label: "Link Label", name: "linkLabel", widget: "string" }
+              - { label: "Link URL", name: "linkUrl", widget: "string" }
+              - { label: "Needs Full Registration Details", name: "needsDetails", widget: "boolean", default: true }
+              - { label: "Rugby Xplorer URL", name: "rugbyXplorerUrl", widget: "string", required: false, hint: "Leave blank to fall back to a registration email link" }
+
+  - name: "schedule"
+    label: "Schedule"
+    files:
+      - file: "src/_data/schedule.json"
+        label: "Upcoming Sessions"
+        name: "schedule"
+        fields:
+          - label: "Sessions"
+            name: "schedule"
+            widget: "list"
+            fields:
+              - { label: "Day (e.g. SUN)", name: "day", widget: "string" }
+              - { label: "Date (e.g. 23)", name: "date", widget: "string" }
+              - { label: "Time (e.g. 3:00 PM)", name: "time", widget: "string" }
+              - { label: "Place", name: "place", widget: "string" }
+              - { label: "Location", name: "location", widget: "string" }
+              - { label: "Google Maps Query", name: "mapQuery", widget: "string", hint: "URL-encoded, e.g. Independence+Park+Livermore+CA" }
+
+  - name: "pages"
+    label: "Pages"
+    files:
+      - { file: "src/about.njk", label: "About", name: "about" }
+      - { file: "src/play-rugby.njk", label: "Play Rugby", name: "play-rugby" }
+      - { file: "src/volunteers.njk", label: "Volunteers", name: "volunteers" }
+      - { file: "src/privacy.njk", label: "Privacy Policy", name: "privacy" }
+      - { file: "src/terms.njk", label: "Terms of Use", name: "terms" }
+      - { file: "src/code-of-conduct.njk", label: "Code of Conduct", name: "code-of-conduct" }
+      - { file: "src/player-welfare.njk", label: "Player Welfare", name: "player-welfare" }
+      - { file: "src/notice-at-collection.njk", label: "Notice at Collection", name: "notice-at-collection" }
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Description", name: "description", widget: "text", required: false }
+      - { label: "Body", name: "body", widget: "markdown" }

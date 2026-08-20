@@ -1,0 +1,207 @@
+---
+title: Register
+description: Tell us about your player, then continue to official registration.
+layout: base.njk
+permalink: /register/
+---
+<style>
+.registration-shell{max-width:880px;margin:0 auto}
+.reg-intro{max-width:700px;margin:0 auto 40px;text-align:center}
+.reg-status{display:none;margin-top:18px;padding:16px 18px;border-radius:6px;background:#e4ede7;color:var(--green);font-weight:600}
+.reg-status.error{background:var(--maroon-tint);color:var(--maroon)}
+.req{color:var(--maroon)}
+.small-note{font-size:13px;color:#6b6461;margin-top:8px}
+.consent{display:flex;gap:10px;align-items:flex-start;margin:20px 0;font-size:14px;color:#544f4d}
+.consent input{margin-top:4px;accent-color:var(--maroon)}
+.next-step{margin-top:36px;padding:26px;background:var(--ivory);border-left:3px solid var(--green);border-radius:6px}
+.privacy-notice{background:#F7F4EF;border-left:4px solid var(--green);padding:16px 18px;margin:22px 0;border-radius:4px;font-size:13.5px;line-height:1.55;}
+.reg-step-label{display:block;text-align:center;margin-bottom:8px;}
+</style>
+
+<div class="page-header">
+  <div class="hero-pattern"></div>
+  <div class="page-header-inner">
+    <div class="breadcrumb"><a href="/">Home</a> / Register</div>
+    <div class="eyebrow"><span class="dot"></span> READY TO PLAY</div>
+    <h1>Join the Lions</h1>
+    <p>Tell us about your player first. We'll then direct you to Rugby Xplorer for official Rugby NorCal registration.</p>
+  </div>
+</div>
+<div class="stripe-rule"></div>
+
+<!-- STEP 1: capture player info to the club's Google Sheet -->
+<section class="section-ivory">
+  <div class="wrap registration-shell">
+    <div class="reg-intro">
+      <span class="section-label reg-step-label">Step 1 of 2</span>
+      <h2 class="section-title center">Tell us about your player</h2>
+      <p class="section-body center">This gives the club the information we need to place your child with the right group and keep you informed. It takes about a minute.</p>
+    </div>
+
+    <div class="form-card">
+      <form id="clubRegistration">
+        <div class="form-row">
+          <div class="form-field">
+            <label>Parent / guardian name <span class="req">*</span></label>
+            <input name="parentName" required>
+          </div>
+          <div class="form-field">
+            <label>Email <span class="req">*</span></label>
+            <input name="email" type="email" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label>Phone <span class="req">*</span></label>
+            <input name="phone" type="tel" required>
+          </div>
+          <div class="form-field">
+            <label>Child's name <span class="req">*</span></label>
+            <input name="childName" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label>Child's date of birth <span class="req">*</span></label>
+            <input name="dob" type="date" required>
+          </div>
+          <div class="form-field">
+            <label>Age group, if known</label>
+            <select name="ageGroup">
+              <option value="">Not sure</option>
+              {% for team in teams %}
+              <option value="{{ team.name }}">{{ team.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label>Rugby experience</label>
+            <select name="experience">
+              <option>None</option>
+              <option>Some</option>
+              <option>Experienced</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label>Interested in volunteering?</label>
+            <select name="volunteer">
+              <option>No</option>
+              <option>Yes</option>
+              <option>Maybe / tell me more</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row full">
+          <div class="form-field">
+            <label>Anything the coaches should know?</label>
+            <textarea name="notes" placeholder="Optional"></textarea>
+            <div class="small-note">Please avoid including unnecessary sensitive medical information here. We can follow up privately where needed.</div>
+          </div>
+        </div>
+
+        <div class="privacy-notice">
+          <strong>Privacy notice:</strong> This form is for a parent or legal guardian. We collect the information you provide to manage enquiries, team placement, registration, player welfare, and club communications. Information is stored using Google Workspace. We do not sell personal information. See our <a href="/privacy/">Privacy Policy</a> and <a href="/notice-at-collection/">Notice at Collection</a>.
+        </div>
+
+        <label class="consent">
+          <input name="consent" type="checkbox" required>
+          <span>I confirm I am the player's parent or legal guardian, and I agree that Livermore Lions Rugby Club may use these details to contact me about registration, training, and club activities. <span class="req">*</span></span>
+        </label>
+
+        <button class="btn btn-maroon" type="submit" id="regSubmitBtn">Submit &amp; continue</button>
+        <div class="reg-status" id="regStatus"></div>
+      </form>
+
+      <div class="next-step">
+        <strong>What happens next?</strong>
+        <p>Once submitted, scroll down to pick your child's age group and complete the mandatory official Rugby NorCal registration through Rugby Xplorer. We'll follow up by email with training details.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STEP 2: age group selection -> Rugby Xplorer -->
+<section id="team-select">
+  <div class="wrap">
+    <span class="section-label reg-step-label">Step 2 of 2</span>
+    <h2 class="section-title center">Register by age group</h2>
+    <div class="register-team-grid">
+      {% for team in teams %}
+      <div class="register-team-card">
+        <h3>{{ team.name }}</h3>
+        <a href="{{ team.rugbyXplorerUrl or ('mailto:' + site.registrationEmail) }}" class="btn btn-ghost">{% if team.needsDetails %}Register{% else %}Register Interest{% endif %}</a>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="fee-note">
+      <strong>About fees:</strong> Rugby Xplorer registration includes mandatory Rugby NorCal / governing-body fees, separate from any club fees. We make clear on each registration link exactly what's included, so there's no confusion about what you're being charged for.
+    </div>
+    <div class="vol-note-box" style="margin-top:20px;">
+      The "Register" buttons above currently email {{ site.registrationEmail }} — set each team's <code>rugbyXplorerUrl</code> in <code>src/_data/teams.json</code> once you have your real Rugby Xplorer links.
+    </div>
+  </div>
+</section>
+
+<script>
+// Paste the Web app URL from your Apps Script deployment here.
+const GOOGLE_SHEET_ENDPOINT = ''; // e.g. 'https://script.google.com/macros/s/XXXXXXXX/exec'
+
+document.getElementById('clubRegistration').addEventListener('submit', async function (e) {
+  e.preventDefault();
+  const status = document.getElementById('regStatus');
+  const btn = document.getElementById('regSubmitBtn');
+  const data = new FormData(this);
+
+  const payload = {
+    parentName: data.get('parentName') || '',
+    email: data.get('email') || '',
+    phone: data.get('phone') || '',
+    childName: data.get('childName') || '',
+    dob: data.get('dob') || '',
+    ageGroup: data.get('ageGroup') || '',
+    experience: data.get('experience') || '',
+    volunteer: data.get('volunteer') || '',
+    notes: data.get('notes') || '',
+    consent: data.get('consent') ? true : false
+  };
+
+  if (!GOOGLE_SHEET_ENDPOINT) {
+    status.className = 'reg-status error';
+    status.style.display = 'block';
+    status.textContent = 'The registration form is ready, but it is not yet connected to the club Sheet. Deploy the Apps Script backend and paste the Web app URL into GOOGLE_SHEET_ENDPOINT.';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Submitting…';
+
+  try {
+    // text/plain avoids a CORS preflight against the Apps Script endpoint.
+    const res = await fetch(GOOGLE_SHEET_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload)
+    });
+    const result = await res.json();
+
+    if (result.status === 'success') {
+      status.className = 'reg-status';
+      status.style.display = 'block';
+      status.textContent = "Thanks! Your player's details have been sent to the club. Now pick an age group below.";
+      this.reset();
+      document.getElementById('team-select').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      throw new Error(result.message || 'Unknown error');
+    }
+  } catch (err) {
+    status.className = 'reg-status error';
+    status.style.display = 'block';
+    status.textContent = 'We could not submit the form. Please try again or email registration@livermorerugby.com.';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Submit & continue';
+  }
+});
+</script>

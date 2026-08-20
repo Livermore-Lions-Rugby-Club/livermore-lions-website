@@ -1,0 +1,19 @@
+---
+layout: base.njk
+title: Teams
+description: "Choose an age group to see training times, coaches and what a first session looks like."
+---
+<section class="policy-hero"><div class="policy-wrap"><h1>Find your team</h1><p>Every Lion starts somewhere. Choose an age group to see training times, coaches and what a first session looks like.</p></div></section>
+<section id="teams">
+<div class="wrap">
+<div class="team-grid">
+{% for team in teams %}
+<div class="team-card"><div class="team-card-top"></div><div class="team-card-body">
+<div class="team-tag">{{ team.tag }}</div><h3>{{ team.name }}</h3>
+<p>{{ team.description }}</p>
+<a class="team-link" href="{{ team.linkUrl }}">{{ team.linkLabel }}</a>
+</div></div>
+{% endfor %}
+</div>
+</div>
+</section>

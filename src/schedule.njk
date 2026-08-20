@@ -1,0 +1,26 @@
+---
+layout: base.njk
+title: Schedule
+description: "Find the next Livermore Lions training session and get directions."
+---
+<section class="policy-hero"><div class="policy-wrap"><h1>Training schedule</h1><p>Come along to the next session — new families are always welcome.</p></div></section>
+<section id="schedule">
+<div class="wrap">
+{% for session in schedule %}
+<div class="next-session">
+<div class="ns-left">
+<div class="ns-date"><span class="day">{{ session.day }}</span><span class="num">{{ session.date }}</span></div>
+<div class="ns-info">
+<div class="label">Next Lions training</div>
+<h3>{{ session.time }} · {{ session.place }}</h3>
+<p>{{ session.location }}</p>
+</div>
+</div>
+<div class="ns-btns">
+<a class="btn-ghost btn" href="https://www.google.com/maps/search/?api=1&query={{ session.mapQuery }}" rel="noopener" target="_blank">Get Directions</a>
+<a class="btn btn-maroon" href="/register/">Register to Play</a>
+</div>
+</div>
+{% endfor %}
+</div>
+</section>

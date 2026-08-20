@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>{% if title %}{{ title }} · {{ site.name }}{% else %}{{ site.name }}{% endif %}</title>
+<meta name="description" content="{{ description or 'Youth rugby in Livermore, California. Co-ed, no experience required.' }}"/>
+<link rel="icon" href="/assets/img/crest.png"/>
+<link rel="stylesheet" href="/assets/css/style.css"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Roboto+Slab:wght@500;700;800&display=swap" rel="stylesheet"/>
+</head>
+<body>
+<header>
+<div class="nav-inner">
+<a class="brand" href="/">
+<img alt="Livermore Lions RFC shield logo" class="shield" src="/assets/img/crest.png"/>
+<div class="brand-name">{{ site.shortName | upper }}<span>{{ site.tagline }}</span></div>
+</a>
+<nav>
+<ul>
+{% for item in site.nav %}
+<li><a{% if item.url == page.url %} class="active"{% endif %} href="{{ item.url }}">{{ item.label }}</a></li>
+{% endfor %}
+<li><a class="btn-register" href="/register/">Register</a></li>
+</ul>
+</nav>
+<button aria-expanded="false" aria-label="Open menu" class="menu-toggle">☰</button></div>
+<div class="stripe-rule"></div>
+</header>
+
+{{ content | safe }}
+
+<footer id="contact">
+<div class="wrap">
+<div class="footer-grid">
+<div class="footer-brand">
+<img alt="Livermore Lions RFC shield logo" class="shield" src="/assets/img/crest.png"/>
+<div class="footer-brand-name">{{ site.shortName | upper }}<span>{{ site.location }} — Rugby NorCal affiliated</span></div>
+</div>
+<div class="footer-cols">
+<div class="footer-col">
+<h4>Play</h4>
+{% for item in site.footerPlay %}<a href="{{ item.url }}">{{ item.label }}</a>{% endfor %}
+</div>
+<div class="footer-col">
+<h4>Club</h4>
+{% for item in site.footerClub %}<a href="{{ item.url }}">{{ item.label }}</a>{% endfor %}
+</div>
+<div class="footer-col">
+<h4>Follow the Lions</h4>
+<div class="footer-social">
+<a class="social-dot" href="{{ site.social.instagram }}" rel="noopener" target="_blank">IG</a>
+<a class="social-dot" href="{{ site.social.facebook }}" rel="noopener" target="_blank">FB</a>
+<a class="social-dot" href="{{ site.social.twitter }}" rel="noopener" target="_blank">X</a>
+</div>
+</div>
+<div class="footer-col"><h4>Policies</h4>{% for item in site.footerPolicies %}<a href="{{ item.url }}">{{ item.label }}</a>{% endfor %}</div></div>
+</div>
+<div class="footer-bottom">
+<span>© {{ site.founded }} {{ site.name }}</span>
+<span><a href="mailto:{{ site.email }}">{{ site.email }}</a></span>
+</div>
+</div>
+<p class="social-handle">{{ site.social.handle }}</p></footer>
+<script>document.addEventListener('DOMContentLoaded',function(){const btn=document.querySelector('.menu-toggle');const header=document.querySelector('header');if(btn&&header){btn.addEventListener('click',function(){const open=header.classList.toggle('nav-open');btn.setAttribute('aria-expanded',open?'true':'false');btn.textContent=open?'✕':'☰';});}});</script>
+</body>
+</html>

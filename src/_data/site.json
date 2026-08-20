@@ -1,0 +1,46 @@
+{
+  "name": "Livermore Lions Rugby Club",
+  "shortName": "Livermore Lions",
+  "tagline": "RUGBY CLUB",
+  "url": "https://livermorerugby.com",
+  "email": "hello@livermorerugby.com",
+  "registrationEmail": "registration@livermorerugby.com",
+  "volunteerEmail": "volunteer@livermorerugby.com",
+  "sponsorEmail": "sponsors@livermorerugby.com",
+  "location": "Livermore, California",
+  "founded": "2026",
+  "social": {
+    "instagram": "https://instagram.com/livermorerugby",
+    "facebook": "https://facebook.com/livermorerugby",
+    "twitter": "https://x.com/livermorerugby",
+    "handle": "@LivermoreRugby"
+  },
+  "nav": [
+    { "label": "Home", "url": "/" },
+    { "label": "Play Rugby", "url": "/play-rugby/" },
+    { "label": "Teams", "url": "/teams/" },
+    { "label": "Schedule", "url": "/schedule/" },
+    { "label": "About", "url": "/about/" },
+    { "label": "Volunteers", "url": "/volunteers/" },
+    { "label": "Contact", "url": "#contact" }
+  ],
+  "footerPlay": [
+    { "label": "Teams", "url": "/teams/" },
+    { "label": "Schedule", "url": "/schedule/" },
+    { "label": "Register", "url": "/register/" },
+    { "label": "Try Rugby", "url": "/play-rugby/" }
+  ],
+  "footerClub": [
+    { "label": "About", "url": "/about/" },
+    { "label": "Coaches", "url": "/about/" },
+    { "label": "Volunteer", "url": "/volunteers/" },
+    { "label": "Contact", "url": "#contact" }
+  ],
+  "footerPolicies": [
+    { "label": "Privacy Policy", "url": "/privacy/" },
+    { "label": "Notice at Collection", "url": "/notice-at-collection/" },
+    { "label": "Player Welfare", "url": "/player-welfare/" },
+    { "label": "Code of Conduct", "url": "/code-of-conduct/" },
+    { "label": "Terms of Use", "url": "/terms/" }
+  ]
+}

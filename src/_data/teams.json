@@ -1,0 +1,38 @@
+[
+  {
+    "tag": "Youngest Lions",
+    "name": "Rugby Tots",
+    "description": "Fun, movement and rugby-based games to build confidence with the ball.",
+    "linkLabel": "Learn more",
+    "linkUrl": "/register/",
+    "needsDetails": true,
+    "rugbyXplorerUrl": ""
+  },
+  {
+    "tag": "Learning the game",
+    "name": "U6",
+    "description": "Passing, running, scoring tries and teamwork. No experience needed.",
+    "linkLabel": "Learn more",
+    "linkUrl": "/register/",
+    "needsDetails": true,
+    "rugbyXplorerUrl": ""
+  },
+  {
+    "tag": "Flag rugby",
+    "name": "U8",
+    "description": "Developing skills and introducing competitive flag rugby.",
+    "linkLabel": "Learn more",
+    "linkUrl": "/register/",
+    "needsDetails": true,
+    "rugbyXplorerUrl": ""
+  },
+  {
+    "tag": "Growing with the Lions",
+    "name": "U10",
+    "description": "Our next age group as player numbers grow.",
+    "linkLabel": "Register interest",
+    "linkUrl": "/register/",
+    "needsDetails": false,
+    "rugbyXplorerUrl": ""
+  }
+]
