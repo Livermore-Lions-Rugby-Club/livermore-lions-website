@@ -2,8 +2,26 @@ backend:
   name: git-gateway
   repo: Livermore-Lions-Rugby-Club/livermore-lions-website
   branch: main
-  identity_url: https://auth.decapbridge.com/sites/REPLACE-WITH-YOUR-DECAPBRIDGE-SITE-ID
+  auth_type: pkce
+  base_url: https://auth.decapbridge.com
+  auth_endpoint: /sites/8ae9979b-32b6-47e4-a257-a598e890f05a/pkce
+  auth_token_endpoint: /sites/8ae9979b-32b6-47e4-a257-a598e890f05a/token
   gateway_url: https://gateway.decapbridge.com
+  commit_messages:
+    create: 'Create {{collection}} "{{slug}}" - {{author-name}} <{{author-login}}> via DecapBridge'
+    update: 'Update {{collection}} "{{slug}}" - {{author-name}} <{{author-login}}> via DecapBridge'
+    delete: 'Delete {{collection}} "{{slug}}" - {{author-name}} <{{author-login}}> via DecapBridge'
+    uploadMedia: 'Upload "{{path}}" - {{author-name}} <{{author-login}}> via DecapBridge'
+    deleteMedia: 'Delete "{{path}}" - {{author-name}} <{{author-login}}> via DecapBridge'
+
+auth:
+  email_claim: email
+  first_name_claim: first_name
+  last_name_claim: last_name
+  avatar_url_claim: avatar_url
+
+logo_url: https://decapbridge.com/decapcms-with-bridge.svg
+site_url: https://livermorerugby.com
 
 publish_mode: simple
 media_folder: "src/assets/img/uploads"
