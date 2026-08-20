@@ -133,6 +133,10 @@ collections:
         label: "Volunteers"
         name: "volunteers"
         fields: *page_fields
+      - file: "src/sponsors.njk"
+        label: "Sponsors"
+        name: "sponsors"
+        fields: *page_fields
       - file: "src/privacy.njk"
         label: "Privacy Policy"
         name: "privacy"
