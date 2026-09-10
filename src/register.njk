@@ -127,20 +127,27 @@ permalink: /register/
 <section id="team-select">
   <div class="wrap">
     <span class="section-label reg-step-label">Step 2 of 2</span>
-    <h2 class="section-title center">Register by age group</h2>
+    <h2 class="section-title center">Complete official registration</h2>
+    <p class="section-body center">
+      Choose your child's age group below to continue to Rugby Xplorer and complete the official Rugby NorCal registration.
+    </p>
+
     <div class="register-team-grid">
       {% for team in teams.list %}
       <div class="register-team-card">
         <h3>{{ team.name }}</h3>
-        <a href="{{ team.rugbyXplorerUrl or ('mailto:' + site.registrationEmail) }}" class="btn btn-ghost">{% if team.needsDetails %}Register{% else %}Register Interest{% endif %}</a>
+        <a
+          href="{{ team.rugbyXplorerUrl or ('mailto:' + site.registrationEmail) }}"
+          class="btn btn-ghost"
+        >
+          {% if team.needsDetails %}Register{% else %}Register Interest{% endif %}
+        </a>
       </div>
       {% endfor %}
     </div>
+
     <div class="fee-note">
-      <strong>About fees:</strong> Rugby Xplorer registration includes mandatory Rugby NorCal / governing-body fees, separate from any club fees. We make clear on each registration link exactly what's included, so there's no confusion about what you're being charged for.
-    </div>
-    <div class="vol-note-box" style="margin-top:20px;">
-      The "Register" buttons above currently email {{ site.registrationEmail }} — set each team's <code>rugbyXplorerUrl</code> in <code>src/_data/teams.json</code> once you have your real Rugby Xplorer links.
+      <strong>About fees:</strong> Rugby Xplorer registration may include mandatory Rugby NorCal / governing-body fees, separate from any Livermore Lions Rugby Club fees.
     </div>
   </div>
 </section>
