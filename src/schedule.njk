@@ -1,26 +1,321 @@
 ---
 layout: base.njk
 title: Schedule
-description: "Find the next Livermore Lions training session and get directions."
+description: "See upcoming Livermore Lions practices, games and club events."
 ---
-<section class="policy-hero"><div class="policy-wrap"><h1>Training schedule</h1><p>Come along to the next session — new families are always welcome.</p></div></section>
-<section id="schedule">
-<div class="wrap">
-{% for session in schedule.list %}
-<div class="next-session">
-<div class="ns-left">
-<div class="ns-date"><span class="day">{{ session.day }}</span><span class="num">{{ session.month }} {{ session.date }}</span></div>
-<div class="ns-info">
-<div class="label">Next Lions training</div>
-<h3>{{ session.time }} · {{ session.place }}</h3>
-<p>{{ session.location }}</p>
-</div>
-</div>
-<div class="ns-btns">
-<a class="btn-ghost btn" href="https://www.google.com/maps/search/?api=1&query={{ session.mapQuery }}" rel="noopener" target="_blank">Get Directions</a>
-<a class="btn btn-maroon" href="/register/">Register to Play</a>
-</div>
-</div>
-{% endfor %}
-</div>
+
+<section class="policy-hero">
+  <div class="policy-wrap">
+    <h1>Club schedule</h1>
+    <p>Practices, games and upcoming Lions events.</p>
+  </div>
 </section>
+
+<section id="schedule">
+  <div class="wrap">
+
+    {% for session in schedule.list %}
+    <div
+      class="next-session schedule-event"
+      data-type="{{ session.type }}"
+      data-teams="{{ session.teams | join(', ') }}"
+      data-event-date="{{ session.eventDate }}"
+      data-time="{{ session.time }}"
+      data-duration="{{ session.duration }}"
+      data-place="{{ session.place }}"
+      data-location="{{ session.location }}"
+      data-repeating="{{ session.repeating }}"
+      data-repeat-frequency="{{ session.repeatFrequency or '' }}"
+      data-repeat-until="{{ session.repeatUntil or '' }}"
+    >
+
+      <div class="ns-left">
+
+        <div class="ns-date">
+          <span class="day">{{ session.day }}</span>
+          <span class="num">{{ session.month }} {{ session.date }}</span>
+        </div>
+
+        <div class="ns-info">
+
+          <div class="label">
+            {{ session.type }}
+            {% if session.teams %}
+              · {{ session.teams | join(", ") }}
+            {% endif %}
+          </div>
+
+          <h3>{{ session.time }} · {{ session.place }}</h3>
+
+          <p>{{ session.location }}</p>
+
+          {% if session.repeating %}
+          <p class="schedule-repeat">
+            Repeats {{ session.repeatFrequency | lower }}
+            through
+            <span class="repeat-until" data-date="{{ session.repeatUntil }}">
+              {{ session.repeatUntil }}
+            </span>
+          </p>
+          {% endif %}
+
+        </div>
+      </div>
+
+      <div class="ns-btns">
+
+        <a
+          class="btn-ghost btn"
+          href="https://www.google.com/maps/search/?api=1&query={{ session.mapQuery }}"
+          rel="noopener"
+          target="_blank"
+        >
+          Get Directions
+        </a>
+
+        <button
+          type="button"
+          class="btn-ghost btn add-calendar"
+        >
+          Add to Calendar
+        </button>
+
+        <a class="btn btn-maroon" href="/register/">
+          Register to Play
+        </a>
+
+      </div>
+
+    </div>
+    {% endfor %}
+
+  </div>
+</section>
+
+<script>
+(function () {
+
+  function formatDisplayDate(value) {
+    if (!value) return '';
+
+    const parts = value.split('-');
+
+    if (parts.length !== 3) return value;
+
+    const date = new Date(
+      Number(parts[0]),
+      Number(parts[1]) - 1,
+      Number(parts[2])
+    );
+
+    return date.toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
+    });
+  }
+
+
+  document.querySelectorAll('.repeat-until').forEach(function (el) {
+    el.textContent = formatDisplayDate(el.dataset.date);
+  });
+
+
+  function parseTime(value) {
+
+    const match = value.trim().match(
+      /^(\d{1,2}):(\d{2})\s*(AM|PM)$/i
+    );
+
+    if (!match) return {
+      hour: 0,
+      minute: 0
+    };
+
+    let hour = Number(match[1]);
+    const minute = Number(match[2]);
+    const period = match[3].toUpperCase();
+
+    if (period === 'PM' && hour !== 12) hour += 12;
+    if (period === 'AM' && hour === 12) hour = 0;
+
+    return {
+      hour: hour,
+      minute: minute
+    };
+  }
+
+
+  function pad(value) {
+    return String(value).padStart(2, '0');
+  }
+
+
+  function formatICSDate(dateValue, timeValue) {
+
+    const dateParts = dateValue.split('-');
+    const time = parseTime(timeValue);
+
+    return (
+      dateParts[0] +
+      pad(dateParts[1]) +
+      pad(dateParts[2]) +
+      'T' +
+      pad(time.hour) +
+      pad(time.minute) +
+      '00'
+    );
+  }
+
+
+  function escapeICS(value) {
+
+    return String(value || '')
+      .replace(/\\/g, '\\\\')
+      .replace(/\n/g, '\\n')
+      .replace(/,/g, '\\,')
+      .replace(/;/g, '\\;');
+  }
+
+
+  function recurrenceCount(startDate, endDate, intervalWeeks) {
+
+    const start = new Date(startDate + 'T12:00:00');
+    const end = new Date(endDate + 'T12:00:00');
+
+    const difference =
+      Math.round((end - start) / 86400000);
+
+    const intervalDays = intervalWeeks * 7;
+
+    return Math.floor(difference / intervalDays) + 1;
+  }
+
+
+  function utcTimestamp() {
+
+    const d = new Date();
+
+    return (
+      d.getUTCFullYear() +
+      pad(d.getUTCMonth() + 1) +
+      pad(d.getUTCDate()) +
+      'T' +
+      pad(d.getUTCHours()) +
+      pad(d.getUTCMinutes()) +
+      pad(d.getUTCSeconds()) +
+      'Z'
+    );
+  }
+
+
+  document.querySelectorAll('.add-calendar').forEach(function (button) {
+
+    button.addEventListener('click', function () {
+
+      const event = button.closest('.schedule-event');
+
+      const type = event.dataset.type || 'Rugby';
+      const teams = event.dataset.teams || 'All Teams';
+      const date = event.dataset.eventDate;
+      const time = event.dataset.time;
+      const duration = Number(event.dataset.duration || 60);
+      const place = event.dataset.place || '';
+      const location = event.dataset.location || '';
+      const repeating = event.dataset.repeating === 'true';
+      const repeatFrequency = event.dataset.repeatFrequency;
+      const repeatUntil = event.dataset.repeatUntil;
+
+      if (!date || !time) {
+        alert('Calendar information is not available for this event.');
+        return;
+      }
+
+      const start = formatICSDate(date, time);
+
+      let recurrence = '';
+
+      if (repeating && repeatUntil) {
+
+        const interval =
+          repeatFrequency === 'Every 2 Weeks' ? 2 : 1;
+
+        const count =
+          recurrenceCount(date, repeatUntil, interval);
+
+        recurrence =
+          'RRULE:FREQ=WEEKLY;INTERVAL=' +
+          interval +
+          ';COUNT=' +
+          count;
+      }
+
+      const title =
+        'Livermore Lions Rugby Club - ' +
+        type +
+        ' (' +
+        teams +
+        ')';
+
+      const venue =
+        place +
+        (location ? ', ' + location : '');
+
+      const description =
+        type +
+        ' for ' +
+        teams +
+        '.';
+
+      const uid =
+        Date.now() +
+        '-' +
+        Math.random().toString(36).substring(2) +
+        '@livermorerugby.com';
+
+  const ics = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//Livermore Lions Rugby Club//Schedule//EN',
+    'CALSCALE:GREGORIAN',
+    'METHOD:PUBLISH',
+    'BEGIN:VEVENT',
+    'UID:' + uid,
+    'DTSTAMP:' + utcTimestamp(),
+    'DTSTART;TZID=America/Los_Angeles:' + start,
+    'DURATION:PT' + duration + 'M',
+    'SUMMARY:' + escapeICS(title),
+    'LOCATION:' + escapeICS(venue),
+    'DESCRIPTION:' + escapeICS(description),
+    ...(recurrence ? [recurrence] : []),
+    'END:VEVENT',
+    'END:VCALENDAR'
+  ].join('\r\n');
+
+      const blob = new Blob(
+        [ics],
+        { type: 'text/calendar;charset=utf-8' }
+      );
+
+      const url = URL.createObjectURL(blob);
+
+      const link = document.createElement('a');
+
+      link.href = url;
+      link.download =
+        'livermore-lions-' +
+        type.toLowerCase().replace(/\s+/g, '-') +
+        '.ics';
+
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+
+      URL.revokeObjectURL(url);
+
+    });
+
+  });
+
+})();
+</script>
