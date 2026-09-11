@@ -24,7 +24,7 @@ permalink: /register/
     <div class="breadcrumb"><a href="/">Home</a> / Register</div>
     <div class="eyebrow"><span class="dot"></span> READY TO PLAY</div>
     <h1>Join the Lions</h1>
-    <p>Tell us about your player first. We'll then direct you to Rugby Xplorer for official Rugby NorCal registration.</p>
+    <p>Tell us about your player, then continue to Rugby Xplorer to complete official Rugby NorCal registration.</p>
   </div>
 </div>
 <div class="stripe-rule"></div>
@@ -35,7 +35,7 @@ permalink: /register/
     <div class="reg-intro">
       <span class="section-label reg-step-label">Step 1 of 2</span>
       <h2 class="section-title center">Tell us about your player</h2>
-      <p class="section-body center">This gives the club the information we need to place your child with the right group and keep you informed. It takes about a minute.</p>
+      <p class="section-body center">This gives us the information we need to place your child with the right group and keep you updated. It takes about a minute.</p>
     </div>
 
     <div class="form-card">
@@ -111,20 +111,20 @@ permalink: /register/
           <span>I confirm I am the player's parent or legal guardian, and I agree that Livermore Lions Rugby Club may use these details to contact me about registration, training, and club activities. <span class="req">*</span></span>
         </label>
 
-        <button class="btn btn-maroon" type="submit" id="regSubmitBtn">Submit &amp; continue</button>
+        <button class="btn btn-maroon" type="submit" id="regSubmitBtn">Continue to registration</button>
         <div class="reg-status" id="regStatus"></div>
       </form>
 
       <div class="next-step">
         <strong>What happens next?</strong>
-        <p>Once submitted, scroll down to pick your child's age group and complete the mandatory official Rugby NorCal registration through Rugby Xplorer. We'll follow up by email with training details.</p>
+        <p>Once submitted, you'll be taken to Step 2 to choose your child's age group and complete the mandatory official Rugby NorCal registration through Rugby Xplorer. We'll follow up by email with training details.</p>
       </div>
     </div>
   </div>
 </section>
 
 <!-- STEP 2: age group selection -> Rugby Xplorer -->
-<section id="team-select">
+<section id="team-select" hidden>
   <div class="wrap">
     <span class="section-label reg-step-label">Step 2 of 2</span>
     <h2 class="section-title center">Complete official registration</h2>
@@ -136,12 +136,22 @@ permalink: /register/
       {% for team in teams.list %}
       <div class="register-team-card">
         <h3>{{ team.name }}</h3>
+   
+        {% if team.rugbyXplorerUrl %}
         <a
-          href="{{ team.rugbyXplorerUrl or ('mailto:' + site.registrationEmail) }}"
+          href="{{ team.rugbyXplorerUrl }}"
           class="btn btn-ghost"
         >
-          {% if team.needsDetails %}Register{% else %}Register Interest{% endif %}
+          Register
         </a>
+        {% else %}
+        <span
+          class="btn btn-ghost"
+          aria-disabled="true"
+        >
+          Interest Registered
+        </span>
+        {% endif %}
       </div>
       {% endfor %}
     </div>
@@ -196,7 +206,12 @@ regFrame.addEventListener('load', function () {
   status.textContent = "Thanks! Your player's details have been sent to the club. Now pick an age group below.";
   regForm.reset();
   btn.disabled = false;
-  btn.textContent = 'Submit & continue';
-  document.getElementById('team-select').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  btn.textContent = 'Continue to registration';
+  
+  document.getElementById('team-select').hidden = false;
+  document.getElementById('team-select').scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
+  });
 });
 </script>
