@@ -32,8 +32,8 @@ description: "See upcoming Livermore Lions practices, games and club events."
       <div class="ns-left">
 
         <div class="ns-date">
-          <span class="day">{{ session.day }}</span>
-          <span class="num">{{ session.month }} {{ session.date }}</span>
+          <span class="day schedule-display-day">{{ session.day }}</span>
+          <span class="num schedule-display-date">{{ session.month }} {{ session.date }}</span>
         </div>
 
         <div class="ns-info">
@@ -120,31 +120,130 @@ description: "See upcoming Livermore Lions practices, games and club events."
     el.textContent = formatDisplayDate(el.dataset.date);
   });
 
+    const now = new Date();
 
-  function parseTime(value) {
+    function parseTime(value) {
+      const match = value.trim().match(
+        /^(\d{1,2}):(\d{2})\s*(AM|PM)$/i
+      );
+    
+      if (!match) {
+        return {
+          hour: 0,
+          minute: 0
+        };
+      }
+    
+      let hour = Number(match[1]);
+      const minute = Number(match[2]);
+      const period = match[3].toUpperCase();
+    
+      if (period === 'PM' && hour !== 12) hour += 12;
+      if (period === 'AM' && hour === 12) hour = 0;
+    
+      return {
+        hour: hour,
+        minute: minute
+      };
+    }
+    
+    function buildLocalDate(dateValue, timeValue) {
+      if (!dateValue) return null;
+    
+      const parts = dateValue.split('-').map(Number);
+    
+      if (parts.length !== 3) return null;
+    
+      const time = parseTime(timeValue || '12:00 AM');
+    
+      return new Date(
+        parts[0],
+        parts[1] - 1,
+        parts[2],
+        time.hour,
+        time.minute,
+        0,
+        0
+      );
+    }
+    
+    function getNextOccurrence(event) {
+      let occurrence = buildLocalDate(
+        event.dataset.eventDate,
+        event.dataset.time
+      );
+    
+      if (!occurrence) return null;
+    
+      const repeating =
+        event.dataset.repeating === 'true';
+    
+      if (!repeating) {
+        return occurrence >= now ? occurrence : null;
+      }
+    
+      const intervalDays =
+        event.dataset.repeatFrequency === 'Every 2 Weeks'
+          ? 14
+          : 7;
+    
+      const repeatUntil = event.dataset.repeatUntil
+        ? buildLocalDate(
+            event.dataset.repeatUntil,
+            '11:59 PM'
+          )
+        : null;
+    
+      while (occurrence < now) {
+        occurrence.setDate(
+          occurrence.getDate() + intervalDays
+        );
+      }
+    
+      if (repeatUntil && occurrence > repeatUntil) {
+        return null;
+      }
+    
+      return occurrence;
+    }
 
-    const match = value.trim().match(
-      /^(\d{1,2}):(\d{2})\s*(AM|PM)$/i
-    );
+  document.querySelectorAll('.schedule-event').forEach(function (event) {
 
-    if (!match) return {
-      hour: 0,
-      minute: 0
-    };
+    const nextDate = getNextOccurrence(event);
 
-    let hour = Number(match[1]);
-    const minute = Number(match[2]);
-    const period = match[3].toUpperCase();
+    if (!nextDate) {
+      event.hidden = true;
+      return;
+    }
 
-    if (period === 'PM' && hour !== 12) hour += 12;
-    if (period === 'AM' && hour === 12) hour = 0;
+    const dayEl =
+      event.querySelector('.schedule-display-day');
 
-    return {
-      hour: hour,
-      minute: minute
-    };
-  }
+    const dateEl =
+      event.querySelector('.schedule-display-date');
 
+    if (dayEl) {
+      dayEl.textContent =
+        nextDate
+          .toLocaleDateString('en-US', {
+            weekday: 'short'
+          })
+          .toUpperCase();
+    }
+
+    if (dateEl) {
+      const month =
+        nextDate
+          .toLocaleDateString('en-US', {
+            month: 'short'
+          })
+          .toUpperCase();
+
+      dateEl.textContent =
+        month + ' ' + nextDate.getDate();
+    }
+
+  });
 
   function pad(value) {
     return String(value).padStart(2, '0');
@@ -273,24 +372,24 @@ description: "See upcoming Livermore Lions practices, games and club events."
         Math.random().toString(36).substring(2) +
         '@livermorerugby.com';
 
-  const ics = [
-    'BEGIN:VCALENDAR',
-    'VERSION:2.0',
-    'PRODID:-//Livermore Lions Rugby Club//Schedule//EN',
-    'CALSCALE:GREGORIAN',
-    'METHOD:PUBLISH',
-    'BEGIN:VEVENT',
-    'UID:' + uid,
-    'DTSTAMP:' + utcTimestamp(),
-    'DTSTART;TZID=America/Los_Angeles:' + start,
-    'DURATION:PT' + duration + 'M',
-    'SUMMARY:' + escapeICS(title),
-    'LOCATION:' + escapeICS(venue),
-    'DESCRIPTION:' + escapeICS(description),
-    ...(recurrence ? [recurrence] : []),
-    'END:VEVENT',
-    'END:VCALENDAR'
-  ].join('\r\n');
+      const ics = [
+        'BEGIN:VCALENDAR',
+        'VERSION:2.0',
+        'PRODID:-//Livermore Lions Rugby Club//Schedule//EN',
+        'CALSCALE:GREGORIAN',
+        'METHOD:PUBLISH',
+        'BEGIN:VEVENT',
+        'UID:' + uid,
+        'DTSTAMP:' + utcTimestamp(),
+        'DTSTART;TZID=America/Los_Angeles:' + start,
+        'DURATION:PT' + duration + 'M',
+        'SUMMARY:' + escapeICS(title),
+        'LOCATION:' + escapeICS(venue),
+        'DESCRIPTION:' + escapeICS(description),
+        ...(recurrence ? [recurrence] : []),
+        'END:VEVENT',
+        'END:VCALENDAR'
+      ].join('\r\n');
 
       const blob = new Blob(
         [ics],
