@@ -63,6 +63,24 @@
 </div>
 </div>
 <p class="social-handle">{{ site.social.handle }}</p></footer>
-<script>document.addEventListener('DOMContentLoaded',function(){const btn=document.querySelector('.menu-toggle');const header=document.querySelector('header');if(btn&&header){btn.addEventListener('click',function(){const open=header.classList.toggle('nav-open');btn.setAttribute('aria-expanded',open?'true':'false');btn.textContent=open?'✕':'☰';});}});</script>
+<script>document.addEventListener('DOMContentLoaded',function(){
+  const btn=document.querySelector('.menu-toggle');
+  const header=document.querySelector('header');
+
+  if(btn&&header){
+    btn.addEventListener('click',function(){
+      const open=header.classList.toggle('nav-open');
+      btn.setAttribute('aria-expanded',open?'true':'false');
+      btn.textContent=open?'✕':'☰';
+    });
+  }
+});
+</script>
+
+<div class="mobile-action-bar">
+  <a href="/schedule/">Schedule</a>
+  <a href="/register/" class="mobile-action-primary">Register</a>
+</div>
+
 </body>
 </html>
