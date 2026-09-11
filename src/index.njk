@@ -11,7 +11,7 @@ description: "Youth rugby in Livermore, California. Co-ed, no experience require
 <div class="welcome">
 <div class="welcome-text">
 <p class="lede">Rugby for Livermore kids.</p>
-<p>Livermore Lions Rugby Club gives children in the Livermore area the opportunity to learn and play rugby in a safe, welcoming and friendly environment. Most of our players started without ever having touched a rugby ball before.</p>
+<p>Livermore Lions gives local kids a friendly, welcoming place to learn rugby. Most of our players start without ever having touched a rugby ball before.</p>
 <p><strong>Learn the game. Make friends. Have fun.</strong> <a href="/about/">More about the club →</a></p>
 </div>
 <div class="welcome-stats">
@@ -22,6 +22,52 @@ description: "Youth rugby in Livermore, California. Co-ed, no experience require
 </div>
 </div>
 </section>
+
+{% if schedule.list and schedule.list.length %}
+{% set nextSession = schedule.list[0] %}
+
+<section class="home-next-session">
+  <div class="wrap">
+    <div class="home-next-card">
+
+      <div class="home-next-copy">
+        <span class="section-label">Next session</span>
+
+        <h2>
+          {{ nextSession.type }} ·
+          {{ nextSession.day }} {{ nextSession.month }} {{ nextSession.date }}
+        </h2>
+
+        <p>
+          {{ nextSession.time }} · {{ nextSession.place }}
+        </p>
+
+        {% if nextSession.teams %}
+        <p class="home-next-teams">
+          {{ nextSession.teams | join(", ") }}
+        </p>
+        {% endif %}
+      </div>
+
+      <div class="home-next-actions">
+        <a class="btn btn-ghost" href="/schedule/">
+          Full Schedule
+        </a>
+
+        <a
+          class="btn btn-maroon"
+          href="https://www.google.com/maps/search/?api=1&query={{ nextSession.mapQuery }}"
+          target="_blank"
+          rel="noopener"
+        >
+          Directions
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+{% endif %}
 
 <section class="section-ivory" id="why-rugby">
 <div class="wrap center" style="max-width:600px;">
