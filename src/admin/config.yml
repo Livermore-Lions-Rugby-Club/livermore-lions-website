@@ -108,13 +108,95 @@ collections:
             name: "list"
             widget: "list"
             fields:
+              - label: "Event Type"
+                name: "type"
+                widget: "select"
+                default: "Practice"
+                options:
+                  - "Practice"
+                  - "Game"
+                  - "Other"
+
+              - label: "Teams / Age Groups"
+                name: "teams"
+                widget: "select"
+                multiple: true
+                default: 
+                  - "All Teams"
+                options:
+                  - "All Teams"
+                  - "Rugby Tots"
+                  - "U6"
+                  - "U8"
+                  - "U10"
+
               - { label: "Day (e.g. SUN)", name: "day", widget: "string" }
-              - { label: "Month", name: "month", widget: "select", options: ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"] }
-              - { label: "Date (e.g. 23)", name: "date", widget: "string" }
+
+              - label: "Month"
+                name: "month"
+                widget: "select"
+                options:
+                  - "JAN"
+                  - "FEB"
+                  - "MAR"
+                  - "APR"
+                  - "MAY"
+                  - "JUN"
+                  - "JUL"
+                  - "AUG"
+                  - "SEP"
+                  - "OCT"
+                  - "NOV"
+                  - "DEC"
+
+              - { label: "Date (e.g. 7)", name: "date", widget: "string" }
+
+              - label: "Actual Event Date"
+                name: "eventDate"
+                widget: "datetime"
+                date_format: "MM/DD/YYYY"
+                time_format: false
+                format: "YYYY-MM-DD"
+                hint: "Used for calendar downloads and recurring events."
+
               - { label: "Time (e.g. 3:00 PM)", name: "time", widget: "string" }
+              
+              - label: "Duration (minutes)"
+                name: "duration"
+                widget: "number"
+                default: 60
+                value_type: "int"
+                min: 15
+                step: 15
+                hint: "Used for calendar downloads. For example, 60 = one hour."
+                
               - { label: "Place", name: "place", widget: "string" }
+
               - { label: "Location", name: "location", widget: "string" }
+
               - { label: "Google Maps Query", name: "mapQuery", widget: "string", hint: "URL-encoded, e.g. Independence+Park+Livermore+CA" }
+
+              - label: "Repeating Event?"
+                name: "repeating"
+                widget: "boolean"
+                default: false
+
+              - label: "Repeats"
+                name: "repeatFrequency"
+                widget: "select"
+                required: false
+                options:
+                  - "Weekly"
+                  - "Every 2 Weeks"
+
+              - label: "Repeat Until"
+                name: "repeatUntil"
+                widget: "datetime"
+                required: false
+                date_format: "MM/DD/YYYY"
+                time_format: false
+                format: "YYYY-MM-DD"
+                hint: "Only complete this for repeating events."
 
   - name: "pages"
     label: "Pages"
