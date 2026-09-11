@@ -302,3 +302,501 @@ footer{background:var(--maroon);color:#f0e4e7;padding:70px 0 30px;}
 @media(max-width:600px){.hero{min-height:560px;background-position:62% center}.hero h1{font-size:36px}.hero-sub{font-size:18px}}
 .policy-wrap{max-width:900px;margin:0 auto;padding:0 32px}.policy-hero{background:linear-gradient(150deg,var(--maroon),#501625 62%,var(--green) 150%);color:#fff;padding:70px 0 58px}.policy-hero h1{color:#fff;font-size:42px;margin-bottom:12px}.policy-hero p{color:#f2e6e9;max-width:720px}.policy-main{padding:70px 0}.policy-main h2{font-size:26px;margin:38px 0 14px}.policy-main h3{font-size:19px;margin:24px 0 10px}.policy-main p,.policy-main li{font-size:15.5px;color:#4f4946}.policy-main ul{list-style:disc;padding-left:24px;margin:12px 0 18px}.policy-main ol{padding-left:24px;margin:12px 0 18px}.policy-box{background:var(--ivory);border-left:4px solid var(--green);padding:20px 22px;border-radius:5px;margin:24px 0}.policy-box.maroon{border-left-color:var(--maroon);background:var(--maroon-tint)}.policy-meta{font-size:13px;color:#746d69;margin-bottom:30px}.notice-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}.notice-card{background:#fff;border:1px solid #ece5e0;border-radius:7px;padding:22px}.notice-card h3{margin-top:0}.small{font-size:13.5px!important;color:#6b6461!important}.policy-main a{color:var(--maroon);text-decoration:underline}@media(max-width:800px){.notice-grid{grid-template-columns:1fr}.policy-hero h1{font-size:32px}}
 
+/* ===== Mobile optimization pass ===== */
+
+@media (max-width: 600px) {
+
+  /* Global spacing */
+  .wrap,
+  .policy-wrap,
+  .page-header-inner,
+  .rugby-cta-inner,
+  .social-handle {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  section {
+    padding: 48px 0;
+  }
+
+  body {
+    overflow-x: hidden;
+  }
+
+
+  /* Header / navigation */
+  .nav-inner {
+    padding: 10px 16px;
+    min-height: 64px;
+  }
+
+  .shield {
+    width: 38px;
+    height: 38px;
+  }
+
+  .brand {
+    gap: 9px;
+  }
+
+  .brand-name {
+    font-size: 14px;
+    line-height: 1.1;
+  }
+
+  .brand-name span {
+    font-size: 9px;
+    letter-spacing: 1.4px;
+  }
+
+  .menu-toggle {
+    font-size: 26px;
+    padding: 8px;
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  header.nav-open nav {
+    top: 64px;
+  }
+
+  header.nav-open nav ul {
+    padding: 14px 18px 20px;
+    gap: 0;
+  }
+
+  header.nav-open nav li {
+    width: 100%;
+  }
+
+  header.nav-open nav a {
+    display: block;
+    width: 100%;
+    padding: 13px 0;
+    font-size: 15px;
+    border-bottom: 1px solid #eee;
+  }
+
+  header.nav-open nav li:last-child a {
+    border-bottom: none;
+  }
+
+
+  /* Homepage hero */
+  .hero {
+    min-height: auto;
+    background-position: 64% center;
+  }
+
+  .hero-inner {
+    padding: 56px 18px 52px;
+    min-height: 0;
+    gap: 28px;
+  }
+
+  .hero-copy {
+    max-width: 100%;
+  }
+
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    margin-bottom: 18px;
+  }
+
+  .hero h1 {
+    font-size: 32px;
+    line-height: 1.08;
+    margin-bottom: 16px;
+    max-width: 340px;
+  }
+
+  .hero-sub {
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 26px;
+    max-width: 340px;
+  }
+
+  .hero-btns {
+    width: 100%;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+
+  .hero-btns .btn,
+  .hero-btns a {
+    width: 100%;
+    text-align: center;
+  }
+
+  .cred-line {
+    font-size: 12.5px;
+    line-height: 1.45;
+  }
+
+
+  /* Interior page heroes */
+  .page-header,
+  .policy-hero {
+    padding: 42px 0 36px;
+  }
+
+  .page-header h1,
+  .policy-hero h1 {
+    font-size: 30px;
+    line-height: 1.12;
+  }
+
+  .page-header p,
+  .policy-hero p {
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+
+  /* Section headings */
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+  }
+
+  .section-title {
+    font-size: 27px;
+    line-height: 1.15;
+    margin-bottom: 14px;
+  }
+
+  .section-body {
+    font-size: 15.5px;
+  }
+
+
+  /* Welcome */
+  .welcome {
+    gap: 28px;
+  }
+
+  .welcome-text p {
+    font-size: 15.5px;
+  }
+
+  .welcome-text .lede {
+    font-size: 17px;
+  }
+
+  .welcome-stats {
+    width: 100%;
+    flex: none;
+    padding-left: 20px;
+  }
+
+  .stat {
+    padding: 14px 0;
+  }
+
+  .stat-num {
+    font-size: 26px;
+  }
+
+
+  /* Teams */
+  .team-grid,
+  .team-grid.cols-3,
+  .register-team-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    margin-top: 30px;
+  }
+
+  .team-card-body,
+  .register-team-card {
+    padding: 20px 18px 22px;
+  }
+
+  .team-card h3,
+  .register-team-card h3 {
+    font-size: 19px;
+  }
+
+  .team-card p {
+    font-size: 14px;
+  }
+
+  .team-meta li {
+    font-size: 13px;
+  }
+
+
+  /* Why / values */
+  .why-grid,
+  .values-grid {
+    grid-template-columns: 1fr;
+    gap: 22px;
+    margin-top: 32px;
+  }
+
+  .why-item {
+    text-align: left;
+    display: grid;
+    grid-template-columns: 52px 1fr;
+    column-gap: 14px;
+    align-items: start;
+  }
+
+  .why-icon {
+    width: 52px;
+    height: 52px;
+    margin: 0;
+    grid-row: span 2;
+  }
+
+  .why-item h3 {
+    margin-bottom: 4px;
+  }
+
+
+  /* Try rugby split section */
+  .try-split {
+    gap: 28px;
+  }
+
+  .try-visual {
+    height: 220px;
+  }
+
+  .try-copy .section-title {
+    font-size: 27px;
+  }
+
+  .try-copy li {
+    font-size: 14.5px;
+  }
+
+
+  /* Rugby CTA */
+  .rugby-cta h2 {
+    font-size: 28px;
+    line-height: 1.15;
+  }
+
+  .rugby-cta p {
+    font-size: 15.5px;
+  }
+
+  .rugby-cta .btn {
+    width: 100%;
+    text-align: center;
+  }
+
+
+  /* Schedule card */
+  .next-session {
+    padding: 22px 16px;
+    gap: 18px;
+    border-radius: 8px;
+  }
+
+  .ns-left {
+    width: 100%;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .ns-date {
+    width: 62px;
+    height: 62px;
+    border-radius: 6px;
+  }
+
+  .ns-date .day {
+    font-size: 10px;
+  }
+
+  .ns-date .num {
+    font-size: 20px;
+  }
+
+  .ns-info {
+    min-width: 0;
+  }
+
+  .ns-info .label {
+    font-size: 10.5px;
+    letter-spacing: 1.1px;
+  }
+
+  .ns-info h3 {
+    font-size: 18px;
+    line-height: 1.25;
+  }
+
+  .ns-info p {
+    font-size: 13.5px;
+    line-height: 1.4;
+  }
+
+  .schedule-repeat {
+    margin-top: 5px;
+  }
+
+  .ns-btns {
+    width: 100%;
+    flex-direction: column;
+    gap: 9px;
+  }
+
+  .ns-btns .btn,
+  .ns-btns a,
+  .ns-btns button {
+    width: 100%;
+    text-align: center;
+  }
+
+
+  /* Generic buttons */
+  .btn,
+  .btn-ghost,
+  .btn-register {
+    min-height: 46px;
+    padding: 13px 18px;
+    font-size: 13px;
+  }
+
+
+  /* Volunteer cards */
+  .vol-grid {
+    margin-top: 32px;
+    gap: 14px;
+  }
+
+  .vol-card {
+    padding: 22px 18px;
+  }
+
+  .vol-cta-row {
+    padding: 24px 18px;
+    gap: 16px;
+  }
+
+  .vol-cta-row .btn {
+    width: 100%;
+    text-align: center;
+  }
+
+
+  /* Forms */
+  .form-row,
+  .contact-grid,
+  .checkbox-grid {
+    grid-template-columns: 1fr;
+  }
+
+  input,
+  select,
+  textarea,
+  button {
+    font-size: 16px;
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+  }
+
+
+  /* Policy pages */
+  .policy-main {
+    padding: 46px 0;
+  }
+
+  .policy-main h2 {
+    font-size: 23px;
+    margin: 30px 0 12px;
+  }
+
+  .policy-main h3 {
+    font-size: 18px;
+  }
+
+  .policy-main p,
+  .policy-main li {
+    font-size: 15px;
+  }
+
+  .policy-box {
+    padding: 18px 16px;
+  }
+
+  .notice-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .notice-card {
+    padding: 18px;
+  }
+
+
+  /* Footer */
+  footer {
+    padding: 48px 0 24px;
+  }
+
+  .footer-grid {
+    gap: 30px;
+    padding-bottom: 34px;
+  }
+
+  .footer-cols {
+    gap: 24px;
+  }
+
+  .footer-col h4 {
+    margin-bottom: 12px;
+  }
+
+  .footer-col a {
+    margin-bottom: 10px;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
+
+
+/* Extra-small phones */
+@media (max-width: 380px) {
+
+  .hero h1 {
+    font-size: 29px;
+  }
+
+  .brand-name {
+    font-size: 13px;
+  }
+
+  .brand-name span {
+    letter-spacing: 1px;
+  }
+
+  .ns-left {
+    gap: 11px;
+  }
+
+  .ns-date {
+    width: 58px;
+    height: 58px;
+  }
+
+  .ns-info h3 {
+    font-size: 17px;
+  }
+}
