@@ -24,29 +24,19 @@ description: "Youth rugby in Livermore, California. Co-ed, no experience require
 </section>
 
 {% if schedule.list and schedule.list.length %}
-{% set nextSession = schedule.list[0] %}
 
-<section class="home-next-session">
+<section class="home-next-session" id="home-next-session" hidden>
   <div class="wrap">
     <div class="home-next-card">
 
       <div class="home-next-copy">
         <span class="section-label">Next session</span>
 
-        <h2>
-          {{ nextSession.type }} ·
-          {{ nextSession.day }} {{ nextSession.month }} {{ nextSession.date }}
-        </h2>
+        <h2 id="home-next-title"></h2>
 
-        <p>
-          {{ nextSession.time }} · {{ nextSession.place }}
-        </p>
+        <p id="home-next-details"></p>
 
-        {% if nextSession.teams %}
-        <p class="home-next-teams">
-          {{ nextSession.teams | join(", ") }}
-        </p>
-        {% endif %}
+        <p class="home-next-teams" id="home-next-teams"></p>
       </div>
 
       <div class="home-next-actions">
@@ -56,7 +46,8 @@ description: "Youth rugby in Livermore, California. Co-ed, no experience require
 
         <a
           class="btn btn-maroon"
-          href="https://www.google.com/maps/search/?api=1&query={{ nextSession.mapQuery }}"
+          id="home-next-directions"
+          href="#"
           target="_blank"
           rel="noopener"
         >
@@ -67,6 +58,166 @@ description: "Youth rugby in Livermore, California. Co-ed, no experience require
     </div>
   </div>
 </section>
+
+<div id="home-schedule-data" hidden>
+  {% for session in schedule.list %}
+  <div
+    class="home-schedule-item"
+    data-type="{{ session.type or 'Session' }}"
+    data-teams="{{ session.teams | join(', ') }}"
+    data-date="{{ session.eventDate }}"
+    data-time="{{ session.time }}"
+    data-place="{{ session.place }}"
+    data-map="{{ session.mapQuery }}"
+    data-repeating="{{ session.repeating }}"
+    data-frequency="{{ session.repeatFrequency }}"
+    data-until="{{ session.repeatUntil }}"
+  ></div>
+  {% endfor %}
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+  const items = document.querySelectorAll('.home-schedule-item');
+  const now = new Date();
+
+  function parseTime(timeText) {
+    const match = String(timeText || '').trim().match(
+      /^(\d{1,2}):(\d{2})\s*(AM|PM)$/i
+    );
+
+    if (!match) return { hours: 0, minutes: 0 };
+
+    let hours = parseInt(match[1], 10);
+    const minutes = parseInt(match[2], 10);
+    const period = match[3].toUpperCase();
+
+    if (period === 'PM' && hours !== 12) hours += 12;
+    if (period === 'AM' && hours === 12) hours = 0;
+
+    return { hours, minutes };
+  }
+
+  function buildDate(dateText, timeText) {
+    if (!dateText) return null;
+
+    const parts = dateText.split('-').map(Number);
+
+    if (parts.length !== 3) return null;
+
+    const time = parseTime(timeText);
+
+    return new Date(
+      parts[0],
+      parts[1] - 1,
+      parts[2],
+      time.hours,
+      time.minutes,
+      0,
+      0
+    );
+  }
+
+  function nextOccurrence(item) {
+
+    let occurrence = buildDate(
+      item.dataset.date,
+      item.dataset.time
+    );
+
+    if (!occurrence) return null;
+
+    const repeating =
+      String(item.dataset.repeating).toLowerCase() === 'true';
+
+    if (!repeating) {
+      return occurrence >= now ? occurrence : null;
+    }
+
+    const intervalDays =
+      item.dataset.frequency === 'Every 2 Weeks' ? 14 : 7;
+
+    const repeatUntil = item.dataset.until
+      ? buildDate(item.dataset.until, '11:59 PM')
+      : null;
+
+    while (occurrence < now) {
+      occurrence.setDate(
+        occurrence.getDate() + intervalDays
+      );
+    }
+
+    if (repeatUntil && occurrence > repeatUntil) {
+      return null;
+    }
+
+    return occurrence;
+  }
+
+  let nextItem = null;
+  let nextDate = null;
+
+  items.forEach(function (item) {
+
+    const occurrence = nextOccurrence(item);
+
+    if (
+      occurrence &&
+      (!nextDate || occurrence < nextDate)
+    ) {
+      nextDate = occurrence;
+      nextItem = item;
+    }
+
+  });
+
+  if (!nextItem || !nextDate) return;
+
+  const day = nextDate
+    .toLocaleDateString('en-US', { weekday: 'short' })
+    .toUpperCase();
+
+  const month = nextDate
+    .toLocaleDateString('en-US', { month: 'short' })
+    .toUpperCase();
+
+  const date = nextDate.getDate();
+
+  document.getElementById('home-next-title').textContent =
+    nextItem.dataset.type +
+    ' · ' +
+    day +
+    ' ' +
+    month +
+    ' ' +
+    date;
+
+  document.getElementById('home-next-details').textContent =
+    nextItem.dataset.time +
+    ' · ' +
+    nextItem.dataset.place;
+
+  const teamsEl = document.getElementById('home-next-teams');
+
+  if (nextItem.dataset.teams) {
+    teamsEl.textContent = nextItem.dataset.teams;
+  } else {
+    teamsEl.hidden = true;
+  }
+
+  const directions =
+    document.getElementById('home-next-directions');
+
+  directions.href =
+    'https://www.google.com/maps/search/?api=1&query=' +
+    nextItem.dataset.map;
+
+  document.getElementById('home-next-session').hidden = false;
+
+});
+</script>
+
 {% endif %}
 
 <section class="section-ivory" id="why-rugby">
