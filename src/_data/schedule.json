@@ -1,12 +1,40 @@
 {
   "list": [
     {
-      "day": "SUN",
-      "date": "23",
+      "day": "SAT",
+      "date": "7",
+      "time": "3:00 PM",
+      "place": "Independence Park",
+      "location": "Livermore, California",
+      "mapQuery": "Independence+Park+Livermore+CA",
+      "month": "NOV"
+    },
+    {
+      "day": "SAT",
+      "month": "NOV",
+      "date": "14",
+      "time": "3:00 pm",
+      "place": "Independence Park",
+      "location": "Livermore, California",
+      "mapQuery": "Independence+Park+Livermore+CA"
+    },
+    {
+      "day": "SAT",
+      "month": "NOV",
+      "date": "21",
       "time": "3:00 PM",
       "place": "Independence Park",
       "location": "Livermore, California",
       "mapQuery": "Independence+Park+Livermore+CA"
+    },
+    {
+      "day": "SAT",
+      "month": "NOV",
+      "date": "28",
+      "time": "3:00 PM",
+      "mapQuery": "Independence+Park+Livermore+CA",
+      "location": "Livermore, California",
+      "place": "Independence Park"
     }
   ]
 }
