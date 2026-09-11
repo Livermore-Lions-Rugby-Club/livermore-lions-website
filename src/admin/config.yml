@@ -109,6 +109,7 @@ collections:
             widget: "list"
             fields:
               - { label: "Day (e.g. SUN)", name: "day", widget: "string" }
+              - { label: "Month", name: "month", widget: "select", options: ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"] }
               - { label: "Date (e.g. 23)", name: "date", widget: "string" }
               - { label: "Time (e.g. 3:00 PM)", name: "time", widget: "string" }
               - { label: "Place", name: "place", widget: "string" }
