@@ -1,20 +1,22 @@
 {
   "list": [
     {
-      "type": "Practice",
-      "teams": ["All Teams"],
-      "day": "SAT",
       "month": "NOV",
-      "date": "7",
-      "eventDate": "2026-11-07",
-      "time": "3:00 PM",
-      "duration": 60,
-      "place": "Independence Park",
-      "location": "Livermore, California",
-      "mapQuery": "Independence+Park+Livermore+CA",
-      "repeating": true,
       "repeatFrequency": "Weekly",
-      "repeatUntil": "2027-03-06"
+      "repeatUntil": "2027-03-06",
+      "repeating": true,
+      "place": "Robertson Park",
+      "eventDate": "2026-11-07",
+      "mapQuery": "Robertson+Park+Livermore+CA",
+      "time": "3:00 PM",
+      "date": "7",
+      "duration": 60,
+      "location": "Livermore, California",
+      "teams": [
+        "All Teams"
+      ],
+      "type": "Practice",
+      "day": "SAT"
     }
   ]
 }
