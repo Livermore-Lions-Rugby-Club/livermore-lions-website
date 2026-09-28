@@ -1,22 +1,13 @@
 {
   "list": [
     {
-      "month": "NOV",
-      "repeatFrequency": "Weekly",
-      "repeatUntil": "2027-03-06",
-      "repeating": true,
+      "day": "Saturday",
+      "month": "DEC",
+      "time": "TBC",
+      "date": "TBC",
       "place": "Robertson Park",
-      "eventDate": "2026-11-07",
-      "mapQuery": "Robertson+Park+Livermore+CA",
-      "time": "3:00 PM",
-      "date": "7",
-      "duration": 60,
-      "location": "Livermore, California",
-      "teams": [
-        "All Teams"
-      ],
-      "type": "Practice",
-      "day": "SAT"
+      "location": "Livermore",
+      "mapQuery": "robertson+Park+Livermore"
     }
   ]
 }
