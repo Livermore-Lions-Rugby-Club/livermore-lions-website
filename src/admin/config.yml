@@ -108,6 +108,16 @@ collections:
             name: "list"
             widget: "list"
             fields:
+            
+              - label: "Schedule Status"
+                name: "status"
+                widget: "select"
+                default: "Confirmed"
+                options:
+                  - "Confirmed"
+                  - "Details coming soon"
+                hint: "Choose 'Details coming soon' if the date or time has not yet been confirmed."
+                
               - label: "Event Type"
                 name: "type"
                 widget: "select"
@@ -130,11 +140,12 @@ collections:
                   - "U8"
                   - "U10"
 
-              - { label: "Day (e.g. SUN)", name: "day", widget: "string" }
+              - { label: "Day (e.g. SUN)", name: "day", widget: "string", required: false }
 
               - label: "Month"
                 name: "month"
                 widget: "select"
+                required: false
                 options:
                   - "JAN"
                   - "FEB"
@@ -149,32 +160,34 @@ collections:
                   - "NOV"
                   - "DEC"
 
-              - { label: "Date (e.g. 7)", name: "date", widget: "string" }
+              - { label: "Date (e.g. 7)", name: "date", widget: "string", required: false }
 
               - label: "Actual Event Date"
                 name: "eventDate"
                 widget: "datetime"
+                required: false
                 date_format: "MM/DD/YYYY"
                 time_format: false
                 format: "YYYY-MM-DD"
                 hint: "Used for calendar downloads and recurring events."
 
-              - { label: "Time (e.g. 3:00 PM)", name: "time", widget: "string" }
+              - { label: "Time (e.g. 3:00 PM)", name: "time", widget: "string", required: false }
               
               - label: "Duration (minutes)"
                 name: "duration"
                 widget: "number"
+                required: false
                 default: 60
                 value_type: "int"
                 min: 15
                 step: 15
                 hint: "Used for calendar downloads. For example, 60 = one hour."
                 
-              - { label: "Place", name: "place", widget: "string" }
+              - { label: "Place", name: "place", widget: "string", required: false }
 
-              - { label: "Location", name: "location", widget: "string" }
+              - { label: "Location", name: "location", widget: "string", required: false }
 
-              - { label: "Google Maps Query", name: "mapQuery", widget: "string", hint: "URL-encoded, e.g. Independence+Park+Livermore+CA" }
+              - { label: "Google Maps Query", name: "mapQuery", widget: "string", required: false, hint: "URL-encoded, e.g. Independence+Park+Livermore+CA" }
 
               - label: "Repeating Event?"
                 name: "repeating"
