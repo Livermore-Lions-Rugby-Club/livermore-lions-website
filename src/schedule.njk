@@ -37,8 +37,7 @@ description: "See upcoming Livermore Lions practices, games and club events."
 
     <div class="ns-date">
       {% if comingSoon %}
-        <span class="day">DETAILS</span>
-        <span class="num">COMING SOON</span>
+        <span class="schedule-coming-soon-badge">COMING SOON</span>
       {% else %}
         <span class="day schedule-display-day">{{ session.day }}</span>
         <span class="num schedule-display-date">{{ session.month }} {{ session.date }}</span>
@@ -54,7 +53,7 @@ description: "See upcoming Livermore Lions practices, games and club events."
 
       {% if comingSoon %}
 
-        <h3>Details coming soon</h3>
+        <h3>Schedule details coming soon</h3>
 
         {% if session.place or session.location %}
         <p>
