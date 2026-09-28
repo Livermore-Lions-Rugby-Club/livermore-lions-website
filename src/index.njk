@@ -63,15 +63,16 @@ description: "Youth rugby in Livermore, California. Co-ed, no experience require
   {% for session in schedule.list %}
   <div
     class="home-schedule-item"
+    data-status="{{ session.status or 'Confirmed' }}"
     data-type="{{ session.type or 'Session' }}"
     data-teams="{{ (session.teams or ['All Teams']) | join(', ') }}"
-    data-date="{{ session.eventDate }}"
-    data-time="{{ session.time }}"
-    data-place="{{ session.place }}"
-    data-map="{{ session.mapQuery }}"
-    data-repeating="{{ session.repeating }}"
-    data-frequency="{{ session.repeatFrequency }}"
-    data-until="{{ session.repeatUntil }}"
+    data-date="{{ session.eventDate or '' }}"
+    data-time="{{ session.time or '' }}"
+    data-place="{{ session.place or '' }}"
+    data-map="{{ session.mapQuery or '' }}"
+    data-repeating="{{ session.repeating or false }}"
+    data-frequency="{{ session.repeatFrequency or '' }}"
+    data-until="{{ session.repeatUntil or '' }}"
   ></div>
   {% endfor %}
 </div>
@@ -159,9 +160,14 @@ document.addEventListener('DOMContentLoaded', function () {
   let nextDate = null;
 
   items.forEach(function (item) {
-
+  
+    // Only confirmed events can be considered the next session.
+    if (item.dataset.status === 'Details coming soon') {
+      return;
+    }
+  
     const occurrence = nextOccurrence(item);
-
+  
     if (
       occurrence &&
       (!nextDate || occurrence < nextDate)
@@ -169,7 +175,7 @@ document.addEventListener('DOMContentLoaded', function () {
       nextDate = occurrence;
       nextItem = item;
     }
-
+  
   });
 
   if (!nextItem || !nextDate) return;
@@ -193,10 +199,13 @@ document.addEventListener('DOMContentLoaded', function () {
     ' ' +
     date;
 
+  const details = [
+    nextItem.dataset.time,
+    nextItem.dataset.place
+  ].filter(Boolean);
+  
   document.getElementById('home-next-details').textContent =
-    nextItem.dataset.time +
-    ' · ' +
-    nextItem.dataset.place;
+    details.join(' · ');
 
   const teamsEl = document.getElementById('home-next-teams');
 
@@ -209,9 +218,13 @@ document.addEventListener('DOMContentLoaded', function () {
   const directions =
     document.getElementById('home-next-directions');
 
-  directions.href =
-    'https://www.google.com/maps/search/?api=1&query=' +
-    nextItem.dataset.map;
+  if (nextItem.dataset.map) {
+    directions.href =
+      'https://www.google.com/maps/search/?api=1&query=' +
+      nextItem.dataset.map;
+  } else {
+    directions.hidden = true;
+  }
 
   document.getElementById('home-next-session').hidden = false;
 
