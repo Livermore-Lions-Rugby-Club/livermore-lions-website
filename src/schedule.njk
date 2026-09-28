@@ -14,78 +14,113 @@ description: "See upcoming Livermore Lions practices, games and club events."
 <section id="schedule">
   <div class="wrap">
 
-    {% for session in schedule.list %}
-    <div
-      class="next-session schedule-event"
-      data-type="{{ session.type }}"
-      data-teams="{{ (session.teams or ['All Teams']) | join(', ') }}"
-      data-event-date="{{ session.eventDate }}"
-      data-time="{{ session.time }}"
-      data-duration="{{ session.duration }}"
-      data-place="{{ session.place }}"
-      data-location="{{ session.location }}"
-      data-repeating="{{ session.repeating }}"
-      data-repeat-frequency="{{ session.repeatFrequency or '' }}"
-      data-repeat-until="{{ session.repeatUntil or '' }}"
-    >
+{% for session in schedule.list %}
 
-      <div class="ns-left">
+{% set comingSoon = session.status == "Details coming soon" %}
 
-        <div class="ns-date">
-          <span class="day schedule-display-day">{{ session.day }}</span>
-          <span class="num schedule-display-date">{{ session.month }} {{ session.date }}</span>
-        </div>
+<div
+  class="next-session schedule-event{% if comingSoon %} schedule-coming-soon{% endif %}"
+  data-status="{{ session.status or 'Confirmed' }}"
+  data-type="{{ session.type or 'Session' }}"
+  data-teams="{{ (session.teams or ['All Teams']) | join(', ') }}"
+  data-event-date="{{ session.eventDate or '' }}"
+  data-time="{{ session.time or '' }}"
+  data-duration="{{ session.duration or 60 }}"
+  data-place="{{ session.place or '' }}"
+  data-location="{{ session.location or '' }}"
+  data-repeating="{{ session.repeating or false }}"
+  data-repeat-frequency="{{ session.repeatFrequency or '' }}"
+  data-repeat-until="{{ session.repeatUntil or '' }}"
+>
 
-        <div class="ns-info">
+  <div class="ns-left">
 
-          <div class="label">
-            {{ session.type }}
-              · {{ (session.teams or ['All Teams']) | join(", ") }}
-          </div>
+    <div class="ns-date">
+      {% if comingSoon %}
+        <span class="day">DETAILS</span>
+        <span class="num">COMING SOON</span>
+      {% else %}
+        <span class="day schedule-display-day">{{ session.day }}</span>
+        <span class="num schedule-display-date">{{ session.month }} {{ session.date }}</span>
+      {% endif %}
+    </div>
 
-          <h3>{{ session.time }} · {{ session.place }}</h3>
+    <div class="ns-info">
 
-          <p>{{ session.location }}</p>
-
-          {% if session.repeating %}
-          <p class="schedule-repeat">
-            Repeats {{ session.repeatFrequency | lower }}
-            through
-            <span class="repeat-until" data-date="{{ session.repeatUntil }}">
-              {{ session.repeatUntil }}
-            </span>
-          </p>
-          {% endif %}
-
-        </div>
+      <div class="label">
+        {{ session.type or 'Session' }}
+        · {{ (session.teams or ['All Teams']) | join(", ") }}
       </div>
 
-      <div class="ns-btns">
+      {% if comingSoon %}
 
-        <a
-          class="btn-ghost btn"
-          href="https://www.google.com/maps/search/?api=1&query={{ session.mapQuery }}"
-          rel="noopener"
-          target="_blank"
-        >
-          Get Directions
-        </a>
+        <h3>Details coming soon</h3>
 
-        <button
-          type="button"
-          class="btn-ghost btn add-calendar"
-        >
-          Add to Calendar
-        </button>
+        {% if session.place or session.location %}
+        <p>
+          {% if session.place %}{{ session.place }}{% endif %}
+          {% if session.place and session.location %} · {% endif %}
+          {% if session.location %}{{ session.location }}{% endif %}
+        </p>
+        {% endif %}
 
-        <a class="btn btn-maroon" href="/register/">
-          Register to Play
-        </a>
+      {% else %}
 
-      </div>
+        <h3>
+          {% if session.time %}{{ session.time }}{% endif %}
+          {% if session.time and session.place %} · {% endif %}
+          {% if session.place %}{{ session.place }}{% endif %}
+        </h3>
+
+        {% if session.location %}
+        <p>{{ session.location }}</p>
+        {% endif %}
+
+        {% if session.repeating and session.repeatUntil %}
+        <p class="schedule-repeat">
+          Repeats {{ session.repeatFrequency | lower }}
+          through
+          <span class="repeat-until" data-date="{{ session.repeatUntil }}">
+            {{ session.repeatUntil }}
+          </span>
+        </p>
+        {% endif %}
+
+      {% endif %}
 
     </div>
-    {% endfor %}
+  </div>
+
+  <div class="ns-btns">
+
+    {% if session.mapQuery %}
+    <a
+      class="btn-ghost btn"
+      href="https://www.google.com/maps/search/?api=1&query={{ session.mapQuery }}"
+      rel="noopener"
+      target="_blank"
+    >
+      Get Directions
+    </a>
+    {% endif %}
+
+    {% if not comingSoon and session.eventDate %}
+    <button
+      type="button"
+      class="btn-ghost btn add-calendar"
+    >
+      Add to Calendar
+    </button>
+    {% endif %}
+
+    <a class="btn btn-maroon" href="/register/">
+      Register to Play
+    </a>
+
+  </div>
+
+</div>
+{% endfor %}
 
   </div>
 </section>
@@ -205,43 +240,49 @@ description: "See upcoming Livermore Lions practices, games and club events."
       return occurrence;
     }
 
-  document.querySelectorAll('.schedule-event').forEach(function (event) {
+document.querySelectorAll('.schedule-event').forEach(function (event) {
 
-    const nextDate = getNextOccurrence(event);
+  // Provisional events do not have a confirmed date yet.
+  // Leave them visible and do not run date/recurrence calculations.
+  if (event.dataset.status === 'Details coming soon') {
+    return;
+  }
 
-    if (!nextDate) {
-      event.hidden = true;
-      return;
-    }
+  const nextDate = getNextOccurrence(event);
 
-    const dayEl =
-      event.querySelector('.schedule-display-day');
+  if (!nextDate) {
+    event.hidden = true;
+    return;
+  }
 
-    const dateEl =
-      event.querySelector('.schedule-display-date');
+  const dayEl =
+    event.querySelector('.schedule-display-day');
 
-    if (dayEl) {
-      dayEl.textContent =
-        nextDate
-          .toLocaleDateString('en-US', {
-            weekday: 'short'
-          })
-          .toUpperCase();
-    }
+  const dateEl =
+    event.querySelector('.schedule-display-date');
 
-    if (dateEl) {
-      const month =
-        nextDate
-          .toLocaleDateString('en-US', {
-            month: 'short'
-          })
-          .toUpperCase();
+  if (dayEl) {
+    dayEl.textContent =
+      nextDate
+        .toLocaleDateString('en-US', {
+          weekday: 'short'
+        })
+        .toUpperCase();
+  }
 
-      dateEl.textContent =
-        month + ' ' + nextDate.getDate();
-    }
+  if (dateEl) {
+    const month =
+      nextDate
+        .toLocaleDateString('en-US', {
+          month: 'short'
+        })
+        .toUpperCase();
 
-  });
+    dateEl.textContent =
+      month + ' ' + nextDate.getDate();
+  }
+
+});
 
   function pad(value) {
     return String(value).padStart(2, '0');
