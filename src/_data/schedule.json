@@ -1,13 +1,19 @@
 {
   "list": [
     {
-      "day": "Saturday",
-      "month": "DEC",
-      "time": "TBC",
-      "date": "TBC",
-      "place": "Robertson Park",
+      "month": null,
+      "repeating": false,
+      "place": "",
+      "mapQuery": "",
+      "time": "",
+      "date": "",
+      "status": "Details coming soon",
       "location": "Livermore",
-      "mapQuery": "robertson+Park+Livermore"
+      "teams": [
+        "All Teams"
+      ],
+      "type": "Practice",
+      "day": ""
     }
   ]
 }
