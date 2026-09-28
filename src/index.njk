@@ -64,7 +64,7 @@ description: "Youth rugby in Livermore, California. Co-ed, no experience require
   <div
     class="home-schedule-item"
     data-type="{{ session.type or 'Session' }}"
-    data-teams="{{ session.teams | join(', ') }}"
+    data-teams="{{ (session.teams or ['All Teams']) | join(', ') }}"
     data-date="{{ session.eventDate }}"
     data-time="{{ session.time }}"
     data-place="{{ session.place }}"
