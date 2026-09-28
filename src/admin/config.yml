@@ -192,6 +192,7 @@ collections:
               - label: "Repeating Event?"
                 name: "repeating"
                 widget: "boolean"
+                required: false
                 default: false
 
               - label: "Repeats"
