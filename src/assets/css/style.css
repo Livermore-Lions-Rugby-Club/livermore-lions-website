@@ -914,3 +914,26 @@ footer{background:var(--maroon);color:#f0e4e7;padding:70px 0 30px;}
     text-align: center;
   }
 }
+
+/* Schedule - provisional event */
+.schedule-coming-soon .ns-date {
+  width: auto;
+  height: auto;
+  background: transparent;
+  border-radius: 0;
+}
+
+/* Schedule - provisional event badge */
+.schedule-coming-soon-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  border-radius: 7px;
+  background: var(--maroon);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  white-space: nowrap;
+}
