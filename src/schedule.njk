@@ -18,7 +18,7 @@ description: "See upcoming Livermore Lions practices, games and club events."
     <div
       class="next-session schedule-event"
       data-type="{{ session.type }}"
-      data-teams="{{ session.teams | join(', ') }}"
+      data-teams="{{ (session.teams or ['All Teams']) | join(', ') }}"
       data-event-date="{{ session.eventDate }}"
       data-time="{{ session.time }}"
       data-duration="{{ session.duration }}"
@@ -40,9 +40,7 @@ description: "See upcoming Livermore Lions practices, games and club events."
 
           <div class="label">
             {{ session.type }}
-            {% if session.teams %}
-              · {{ session.teams | join(", ") }}
-            {% endif %}
+              · {{ (session.teams or ['All Teams']) | join(", ") }}
           </div>
 
           <h3>{{ session.time }} · {{ session.place }}</h3>
